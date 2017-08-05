@@ -9,6 +9,7 @@
   "author": "willj.uk",
   "license": "ISC",
   "devDependencies": {
+    "handlebars": "^4.0.10",
     "mocha": "^3.4.2"
   }
 }
