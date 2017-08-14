@@ -54,4 +54,43 @@ describe("Settings", function(){
         });
     });
 
+    describe("getAllSettings", function(){
+
+        it("returns a copy of all settings", function(){
+            let initialSettings = {
+                siteTitle: "Test title",
+                outputDir: "./docs/", 
+                sourceDir: "./site/",
+                templateDir: "./templates/",
+                partialsDir: "./templates/partials/",
+                postsDir: "./posts/",
+                removeOutputDir: true,
+                removeFileExtFromUrls: true,
+                useDateInPostUrls: true,
+                postsPerPage: 10,
+                postsPermalink: "index.html",
+                postsPagingPath: "page",
+                aRandomSetting: 22
+            };
+
+            let userSettings = Object.assign({foo: "bar"}, initialSettings);
+
+            settings.init(initialSettings);
+            settings.addSetting("foo", "bar");
+
+            assert.deepEqual(settings.getAllSettings(), userSettings);
+        });
+
+        it("doesn't mutate settings when the copy returned is changed", function(){
+            settings.init();
+            settings.addSetting("foo", "bar");
+            let copyOfSettings = settings.getAllSettings();
+            copyOfSettings.foo = "bzzzz";
+
+            assert.equal(settings.getSetting("foo"), "bar");
+            assert.equal(copyOfSettings.foo , "bzzzz");
+        });
+
+    });
+
 });

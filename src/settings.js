@@ -29,8 +29,13 @@ function addSetting(name, value){
     settings[name] = value;
 }
 
+function getAllSettings(){
+    return Object.assign({}, settings);
+}
+
 module.exports = {
     init: init,
     getSetting: getSetting,
-    addSetting: addSetting
+    addSetting: addSetting,
+    getAllSettings: getAllSettings
 };
