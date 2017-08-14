@@ -1,7 +1,7 @@
 "use strict";
 
 const path = require("path");
-const settings = require("./settings");
+let settings;
 
 function getSlug(title){
     return title.replace(/[^a-z0-9]+/ig, " ")
@@ -10,7 +10,7 @@ function getSlug(title){
 }
 
 function getUrlPath(filePath, fileName, pageAttributes){
-        
+    
     // if attributes have a permalink defined
     if ("permalink" in pageAttributes){
         let plink = path.parse(pageAttributes.permalink);
@@ -71,7 +71,10 @@ function getUrlPath(filePath, fileName, pageAttributes){
 
 }
 
-module.exports = {
-    getSlug: getSlug,
-    getUrlPath: getUrlPath
+module.exports = function(appSettings){
+    settings = appSettings;
+    return {
+        getSlug: getSlug,
+        getUrlPath: getUrlPath
+    };
 };

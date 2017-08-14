@@ -1,6 +1,6 @@
 const assert = require("assert");
-const urls = require("../urls");
 const settings = require("../settings");
+const urls = require("../urls")(settings);
 
 describe("Urls", function(){
 
