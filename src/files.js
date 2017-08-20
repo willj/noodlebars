@@ -31,7 +31,7 @@ function copyFile(from, to) {
 }
 
 function writeFile(file, data) {
-    fs.writeFile(settings.getSetting("outputDir") + file, data, (err) => {
+    fs.writeFile(file, data, (err) => {
         if (err) return console.error(err);
     });
 }
