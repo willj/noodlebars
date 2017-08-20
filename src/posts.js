@@ -1,6 +1,9 @@
 "use strict";
 
 const path = require("path");
+const templates = require("./templates");
+const files = require("./files");
+const renderer = require("./renderer");
 
 let posts = {};
 let postCount = 0;
@@ -129,35 +132,31 @@ function sortPostsByDateDescending(posts){
     });
 }
 
-// function generatePostPage(posts, pageNum, postPath){
-//     let model = settings.getAllSettings();
-//     model.doc = null;   // something seems to be holding on to the last processed page model
-//     model.pageNum = pageNum;
-//     model.posts = posts;
-//     model.paging = generatePagingLinks(pageNum, totalPostPages, postPath);
+function generatePostPage(posts, pageNum, postPath){
+    let model = settings.getAllSettings();
+    model.doc = null;   // something seems to be holding on to the last processed page model
+    model.pageNum = pageNum;
+    model.posts = posts;
+    model.paging = generatePagingLinks(pageNum, totalPostPages, postPath);
 
-//     let templateName = util.getTemplateName(this.settings.postsPermalink, {type: "posts"}, this.templates);  
+    let templateName = templates.getTemplateNameForPage(settings.getSetting("postsPermalink"), {type: "posts"});  
 
-//     if (templateName == undefined) return;
+    let html = renderer.renderPage(templates.getTemplate(templateName), "", model);
 
-//     let html = this.renderPage(this.templates[templateName], "", model);
+    let fileDestination = settings.getSetting("outputDir") + postPath.path;
 
-//     let fileDestination = this.settings.outputDir + postPath.path;
+    files.createDir(fileDestination);
 
-//     util.createDir(fileDestination);
+    if (pageNum == 1){
+        fileDestination = fileDestination + postPath.fileName;
+    } else {
+        fileDestination = fileDestination + settings.getSetting("postsPagingPath") + "/" + pageNum;
+        files.createDir(fileDestination);
+        fileDestination = fileDestination + "/index.html";
+    }
 
-//     if (pageNum == 1){
-//         fileDestination = fileDestination + postPath.fileName;
-//     } else {
-//         fileDestination = fileDestination + this.settings.postsPagingPath + "/" + pageNum;
-//         util.createDir(fileDestination);
-//         fileDestination = fileDestination + "/index.html";
-//     }
-
-//     fs.writeFile(fileDestination, html, (err) => {
-//         if (err) return console.error(err);
-//     });
-// }
+    files.writeFile(fileDestination, html);
+}
 
 
 
