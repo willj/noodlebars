@@ -73,6 +73,29 @@ function getPostPagePath(){
     }
 }
 
+function generatePagingLinks(pageNum, totalPages, postPath){
+    let paging = {
+        currentPageNum: pageNum,
+        totalPages: totalPages
+    };
+
+    if (pageNum == 1){
+        paging.previous = null;
+    } else if (pageNum == 2) {
+        paging.previous = "/" + postPath.path + postPath.fileName;
+    } else {
+        paging.previous = "/" + postPath.path + settings.getSetting("postsPagingPath") + "/" + (pageNum - 1);
+    }
+
+    if (pageNum == totalPages){
+        paging.next = null;
+    } else {
+        paging.next = "/" + postPath.path + settings.getSetting("postsPagingPath") + "/" + (pageNum + 1);
+    }
+
+    return paging;
+}
+
 function generatePostPages(){
     let postPath = getPostPagePath();
     let postsPerPage = settings.getSetting("postsPerPage");
@@ -136,28 +159,7 @@ function sortPostsByDateDescending(posts){
 //     });
 // }
 
-// function generatePagingLinks(pageNum, totalPages, postPath){
-//     let paging = {
-//         currentPageNum: pageNum,
-//         totalPages: totalPages
-//     };
 
-//     if (pageNum == 1){
-//         paging.previous = null;
-//     } else if (pageNum == 2) {
-//         paging.previous = "/" + postPath.path + postPath.fileName;
-//     } else {
-//         paging.previous = "/" + postPath.path + this.settings.postsPagingPath + "/" + (pageNum - 1);
-//     }
-
-//     if (pageNum == totalPages){
-//         paging.next = null;
-//     } else {
-//         paging.next = "/" + postPath.path + this.settings.postsPagingPath + "/" + (pageNum + 1);
-//     }
-
-//     return paging;
-// }
 
 module.exports = function(appSettings){
     settings = appSettings;
@@ -166,6 +168,7 @@ module.exports = function(appSettings){
         getPostDate: getPostDate,
         indexPost: indexPost,
         getPostPagePath: getPostPagePath,
-        getPosts: getPosts
+        getPosts: getPosts,
+        generatePagingLinks: generatePagingLinks
     };
 }

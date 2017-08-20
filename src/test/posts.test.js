@@ -127,4 +127,54 @@ describe("posts", function(){
 
     });
 
+    describe("generatePagingLinks", function(){
+
+        let postPath = {
+            path: "",
+            fileName: "index.html"
+        };
+
+        it("returns null for previous next when there's only one page", function(){
+
+            let paging = posts.generatePagingLinks(1, 1, postPath);
+
+            assert.equal(paging.previous, null);
+            assert.equal(paging.next, null);
+        });
+
+        it("returns null for previous and a path for next when you're on page 1 of 10", function(){
+            let paging = posts.generatePagingLinks(1, 10, postPath);
+
+            assert.equal(paging.previous, null);
+            assert.equal(paging.next, "/page/2");
+        });
+
+        it("returns links for previous and next when you're on page 2 of 10", function(){
+            let paging = posts.generatePagingLinks(2, 10, postPath);
+
+            assert.equal(paging.previous, "/index.html");
+            assert.equal(paging.next, "/page/3");
+        });
+
+        it("returns links for prev and next with a custom posts permalink", function(){
+            let pp = {
+                path: "blog/",
+                fileName: "index.html"
+            };
+
+            let paging = posts.generatePagingLinks(2, 10, pp);
+
+            assert.equal(paging.previous, "/blog/index.html");
+            assert.equal(paging.next, "/blog/page/3");
+        });
+
+        it("returns link for previous and null for next when on page 10 of 10", function(){
+            let paging = posts.generatePagingLinks(10, 10, postPath);
+            
+            assert.equal(paging.previous, "/page/9");
+            assert.equal(paging.next, null);
+        });
+
+    });
+
 });
