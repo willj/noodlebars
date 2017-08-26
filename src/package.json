@@ -9,7 +9,9 @@
   "author": "willj.uk",
   "license": "ISC",
   "devDependencies": {
+    "front-matter": "^2.2.0",
     "handlebars": "^4.0.10",
+    "markdown-it": "^8.4.0",
     "mocha": "^3.4.2",
     "rimraf": "^2.6.1"
   }

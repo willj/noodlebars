@@ -158,8 +158,6 @@ function generatePostPage(posts, pageNum, postPath){
     files.writeFile(fileDestination, html);
 }
 
-
-
 module.exports = function(appSettings){
     settings = appSettings;
 
@@ -168,6 +166,7 @@ module.exports = function(appSettings){
         indexPost: indexPost,
         getPostPagePath: getPostPagePath,
         getPosts: getPosts,
-        generatePagingLinks: generatePagingLinks
+        generatePagingLinks: generatePagingLinks,
+        generatePostPages: generatePostPages
     };
 }

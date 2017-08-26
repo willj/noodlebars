@@ -3,7 +3,6 @@
 const path = require("path");
 const fs = require("fs");
 const rimraf = require("rimraf");
-let settings;
 
 function createDir(path) {
 
@@ -36,12 +35,9 @@ function writeFile(file, data) {
     });
 }
 
-module.exports = function(appSettings){
-    settings = appSettings;
-    return {
-        copyFile: copyFile,
-        createDir: createDir,
-        removeDir: removeDir,
-        writeFile: writeFile
-    };
+module.exports = {
+    copyFile: copyFile,
+    createDir: createDir,
+    removeDir: removeDir,
+    writeFile: writeFile
 };
